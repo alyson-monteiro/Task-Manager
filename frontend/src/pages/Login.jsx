@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Login() {
   const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -12,13 +12,13 @@ function Login() {
     try {
       const res = await api.post('/auth/login', {
         email,
-        password: senha
+        password
       });
-      localStorage.setItem('token', res.data.token); // 🗝️ Guarda o token
-      navigate('/'); // Redireciona para tarefas
+      localStorage.setItem('token', res.data.token);
+      navigate('/tasks');
     } catch (err) {
-      console.log('ERRO LOGIN', err.response?.data);
-      alert('Login falhou: ' + (err.response?.data?.error || 'Erro desconhecido'));
+      console.log('LOGIN ERROR', err.response?.data);
+      alert('Login failed: ' + (err.response?.data?.error || 'Unknown Error'));
     }
   };
 
@@ -36,20 +36,20 @@ function Login() {
           />
           <input
             type="password"
-            placeholder="Senha"
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <button type="submit">Entrar</button>
+          <button type="submit">Sign in</button>
         </form>
         <p style={{ marginTop: '10px' }}>
-          Ainda não tem conta?{' '}
+          Does not have an account?{' '}
           <button
             style={{ background: 'none', border: 'none', color: '#3498db', cursor: 'pointer' }}
             onClick={() => navigate('/register')}
           >
-            Cadastrar-se
+            Sign up
           </button>
         </p>
       </div>

@@ -1,4 +1,3 @@
-// src/models/task.model.js
 const { query } = require('../config/db');
 
 async function getTasksByUser(userId) {

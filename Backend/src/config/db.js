@@ -1,8 +1,8 @@
-// src/config/db.js
-// 1) Carregue as variáveis de ambiente (caso ainda não faça isso aqui):
+//Here we are going to connect to the database, using the dotenv to get the env vars from the .env file.
+// Import dotenv
 require('dotenv').config();
 
-// 2) Debug rápido das suas env vars:
+// print on cosole the env vars:
 console.log(
   '→ DB_HOST:', process.env.DB_HOST,
   'DB_PORT:', process.env.DB_PORT,
@@ -12,7 +12,7 @@ console.log(
   'tipo DB_PASS:', typeof process.env.DB_PASS
 );
 
-// 3) Importa o Pool e cria a conexão
+// Create a connection pool to the database.
 const { Pool } = require('pg');
 const pool = new Pool({
   host:     process.env.DB_HOST,
@@ -22,17 +22,14 @@ const pool = new Pool({
   database: process.env.DB_NAME,
 });
 
-// … resto do arquivo (connect, catch, export)
-
-
 pool
   .connect()
   .then(client => {
-    console.log(`Conectado ao PostgreSQL em ${process.env.DB_HOST}:${process.env.DB_PORT}`);
+    console.log(`Conected to PostgreSQL on ${process.env.DB_HOST}:${process.env.DB_PORT}`);
     client.release();
   })
   .catch(err => {
-    console.error('Falha ao conectar no PostgreSQL:', err);
+    console.error('Failed to connect to PostgreSQL:', err);
   });
 
 module.exports = {

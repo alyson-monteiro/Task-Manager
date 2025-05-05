@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 function Register() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -14,24 +14,24 @@ function Register() {
       await api.post('/auth/register', {
         username,
         email,
-        password: senha // ✔️ Enviar com nome esperado pelo backend
+        password
       });
-      alert('Cadastro realizado com sucesso!');
+      alert('Registered successfully!');
       navigate('/login');
     } catch (err) {
-      console.log('ERRO COMPLETO', err.response?.data); // 👀 Inspeciona resposta real
-      alert('Erro ao cadastrar: ' + (err.response?.data?.error || 'Erro desconhecido'));
+      console.log('Error', err.response?.data);
+      alert('registering failed! Error!' + (err.response?.data?.error || 'Unknown error'));
     }
   };
 
   return (
     <div className="container">
       <div>
-        <h2>Cadastro</h2>
+        <h2>Register</h2>
         <form onSubmit={handleSubmit}>
           <input
             type="text"
-            placeholder="Nome de usuário"
+            placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
@@ -45,12 +45,12 @@ function Register() {
           />
           <input
             type="password"
-            placeholder="Senha"
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <button type="submit">Cadastrar</button>
+          <button type="submit">Register</button>
         </form>
       </div>
     </div>
