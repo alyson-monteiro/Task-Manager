@@ -1,49 +1,53 @@
 # Task Manager
 
-## 📝 Introdução
+## 📝 Introduction
 
-**Task Manager** é uma aplicação web fullstack desenvolvida como parte de um desafio técnico para estágio em desenvolvimento Fullstack. A aplicação permite que usuários cadastrem-se, autentiquem-se e gerenciem suas tarefas através de uma interface intuitiva construída com **React**, consumindo uma API RESTful criada com **Node.js** e **Express**, conectada a um banco de dados **PostgreSQL**.
-
-> ⚠️ A funcionalidade de **marcar tarefas como concluídas** ainda não foi implementada.
+**Task Manager** is a simple fullstack web application developed for portfolio purposes and to reinforce core concepts. The app allows users to register, authenticate, and manage their tasks through a clean and intuitive interface built with **React**, consuming a RESTful API developed using **Node.js** and **Express**, connected to a **PostgreSQL** database running in a Docker container.
 
 ---
 
-## 📑 Tabela de Conteúdos
+## 🚀 Installation
 
-* [Instalação](#instalação)
-* [Uso](#uso)
-* [Funcionalidades](#funcionalidades)
-* [Decisões Técnicas](#decisões-técnicas)
-* [Tecnologias Utilizadas](#tecnologias-utilizadas)
-* [Configuração](#configuração)
-* [Possíveis Melhorias Futuras](#possíveis-melhorias-futuras)
-* [Licença](#licença)
+### Prerequisites
 
----
+* Node.js
+* Docker + Docker Compose
+* npm or yarn
 
-## 🚀 Instalação
-
-### Pré-requisitos
-
-* Node.js (v18+ recomendado)
-* PostgreSQL
-* npm ou yarn
-
-### Clonando o repositório
+### Cloning the Repository
 
 ```bash
 git clone https://github.com/alyson-monteiro/Task-Manager.git
 cd Task-Manager
 ```
 
+### Database (PostgreSQL via Docker)
+
+1. Start the PostgreSQL container:
+
+```bash
+docker-compose up -d
+```
+
+2. Copy the SQL file into the container:
+
+```bash
+docker cp meudb.sql postgres_sql:/meudb.sql
+```
+
+3. Execute the SQL script to populate the database:
+
+```bash
+docker exec -it postgres_sql psql -U postgres -d meudb -f /meudb.sql
+```
+
 ### Backend
 
 ```bash
 cd backend
-cp .env.example .env  # Crie o arquivo de ambiente com suas variáveis
+cp .env.example .env  # Create the environment file with your variables
 npm install
-npm run migrate  # Caso existam migrações configuradas
-npm start
+npm run dev
 ```
 
 ### Frontend
@@ -54,50 +58,49 @@ npm install
 npm start
 ```
 
-A aplicação estará disponível em: `http://localhost:3000`.
+The app will be available at: `http://localhost:3000`.
 
 ---
 
-## 🧑‍💻 Uso
+## 🧑‍💻 Usage
 
-1. Acesse a aplicação.
-2. Crie uma conta com e-mail e senha válidos.
-3. Faça login.
-4. Crie, edite ou exclua suas tarefas.
-5. (Em breve) Marque tarefas como concluídas.
-
----
-
-## ✅ Funcionalidades
-
-* [x] Cadastro de usuário com validação básica.
-* [x] Login e logout com autenticação JWT.
-* [x] CRUD de tarefas (criar, listar, editar e excluir).
-* [ ] Marcar tarefas como concluídas (em desenvolvimento).
-* [x] Interface responsiva com React.
-* [x] Consumo da API via Axios.
-* [x] Navegação protegida por autenticação.
+1. Access the application.
+2. Register with a valid email and password.
+3. Log in.
+4. Create, edit, or delete your tasks.
 
 ---
 
-## ⚙️ Decisões Técnicas
+## ✅ Features
 
-* **Separação de camadas**: O projeto está dividido em `frontend` e `backend` para manter a separação de responsabilidades.
-* **JWT**: Usado para autenticação, garantindo segurança nas rotas protegidas.
-* **PostgreSQL com Sequelize**: ORM utilizado para simplificar interações com o banco de dados relacional.
-* **React Hooks**: Usado para gerenciamento de estado e efeitos colaterais.
-* **React Router**: Implementado para controle de rotas no frontend.
-* **Proteção de rotas**: Somente usuários autenticados podem acessar a interface de tarefas.
+* [x] User registration with basic validation
+* [x] Login and logout with JWT authentication
+* [x] Task CRUD (create, read, update, delete)
+* [x] Responsive interface with React
+* [x] API consumption via Axios
+* [x] Protected navigation for authenticated users
 
 ---
 
-## 🛠 Tecnologias Utilizadas
+## ⚙️ Technical Decisions
+
+* **Layered architecture**: The project is split into `frontend` and `backend` for clear separation of responsibilities
+* **JWT**: Used for secure authentication and authorization
+* **PostgreSQL with Sequelize**: ORM used for database interaction
+* **Docker**: Simplifies database setup and management
+* **React Hooks**: Used for state and effect management
+* **React Router**: Handles routing in the frontend
+* **Route protection**: Only authenticated users can access task management features
+
+---
+
+## 🛠 Technologies Used
 
 ### Backend
 
 * Node.js
 * Express.js
-* PostgreSQL
+* PostgreSQL (via Docker)
 * Sequelize ORM
 * JWT (jsonwebtoken)
 * bcryptjs
@@ -107,36 +110,28 @@ A aplicação estará disponível em: `http://localhost:3000`.
 * React.js
 * Axios
 * React Router DOM
-* CSS/Styled Components (se aplicável)
+* CSS
 
 ---
 
-## 🔧 Configuração
+## 🔧 Configuration
 
-No diretório `/backend`, crie um arquivo `.env` com as seguintes variáveis:
+In the `/backend` directory, create a `.env` file with the following variables:
 
 ```env
-PORT=5000
-DATABASE_URL=postgres://<user>:<password>@localhost:5432/<dbname>
-JWT_SECRET=sua_chave_secreta
+PORT=3001
+DB_HOST=postgres_sql
+DB_PORT=5432
+DB_USER=postgres
+DB_PASS=yourpassword
+DB_NAME=meudb
+JWT_SECRET=umSegredoMuitoForte123
 ```
 
----
-
-## 🚀 Possíveis Melhorias Futuras
-
-* [ ] Implementar marcação de tarefas como concluídas.
-* [ ] Adicionar testes unitários e de integração.
-* [ ] Melhorar o feedback visual com mensagens de erro/sucesso.
-* [ ] Implementar paginação para tarefas.
-* [ ] Deploy em ambiente cloud (Heroku, Vercel etc.).
+> Note: Make sure the `DB_HOST` matches the name of the PostgreSQL service defined in your `docker-compose.yml`.
 
 ---
 
-## 📄 Licença
+## 📄 License
 
-Este projeto está licenciado sob a [MIT License](LICENSE).
-
----
-
-Se quiser, posso incluir um diagrama da arquitetura ou uma imagem de demonstração. Deseja isso?
+This project is licensed under the MIT License.
